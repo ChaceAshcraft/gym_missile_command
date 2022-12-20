@@ -4,11 +4,11 @@ from dataclasses import dataclass
 
 
 @dataclass
-class CONFIG():
+class CONFIG:
     """Configuration class."""
 
     @dataclass
-    class EPISODE():
+    class EPISODE:
         """Episode global configuration."""
 
         FPS: int = 144
@@ -16,20 +16,20 @@ class CONFIG():
         WIDTH: int = 966
 
     @dataclass
-    class BATTERY():
+    class BATTERY:
         """Anti-missiles battery configuration."""
 
         RADIUS: float = 37.0
 
     @dataclass
-    class CITIES():
+    class CITIES:
         """Cities configuration."""
 
         NUMBER: int = 6
         RADIUS: float = 24.0
 
     @dataclass
-    class COLORS():
+    class COLORS:
         """Colors configuration."""
 
         BACKGROUND: tuple = (0, 0, 0)
@@ -41,16 +41,18 @@ class CONFIG():
         TARGET: tuple = (255, 255, 255)
 
     @dataclass
-    class ENEMY_MISSILES():
+    class ENEMY_MISSILES:
         """Enemy missiles configuration."""
 
         NUMBER: int = 19
         PROBA_IN: float = 0.005
         RADIUS: float = 4.0
         SPEED: float = 1.0
+        START_POS_RANGE_CUR: list = None
+        END_POS_RANGE_CUR: list = None
 
     @dataclass
-    class FRIENDLY_MISSILES():
+    class FRIENDLY_MISSILES:
         """Friendly missiles configuration."""
 
         NUMBER: int = 142
@@ -60,7 +62,7 @@ class CONFIG():
         SPEED: float = 7.0
 
     @dataclass
-    class OBSERVATION():
+    class OBSERVATION:
         """Observation configuration."""
 
         HEIGHT: float = 84
@@ -69,7 +71,7 @@ class CONFIG():
         WIDTH: float = 84
 
     @dataclass
-    class REWARD():
+    class REWARD:
         """Reward configuration."""
 
         DESTROYED_CITY: float = -10.0
@@ -77,7 +79,7 @@ class CONFIG():
         FRIENDLY_MISSILE_LAUNCHED: float = -4.0
 
     @dataclass
-    class TARGET():
+    class TARGET:
         """Target configuration."""
 
         SIZE: int = 12

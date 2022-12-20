@@ -9,6 +9,12 @@ setup(
     author_email="eliekadoche78@gmail.com",
     install_requires=["gym", "numpy", "opencv-python", "pygame"],
     description="Gym environment of the Atari game, Missile Command.",
-    packages=["gym_missile_command"],
+    packages=[
+        "gym_missile_command",
+        "gym_missile_command.game",
+        "gym_missile_command.environment",
+        "gym_missile_command.configuration",
+    ],
+
     url="https://github.com/ElieKadoche/gym_missile_command.git",
 )

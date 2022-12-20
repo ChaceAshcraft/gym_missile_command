@@ -9,7 +9,7 @@ from gym_missile_command.configuration import CONFIG
 from gym_missile_command.utils import get_cv2_xy
 
 
-class EnemyMissiles():
+class EnemyMissiles:
     """Enemy missiles class.
 
     Enemy missiles are created by the environment.
@@ -26,7 +26,32 @@ class EnemyMissiles():
 
     def __init__(self):
         """Initialize missiles."""
-        pass
+        self.start_pos_range_cur = CONFIG.ENEMY_MISSILES.START_POS_RANGE_CUR \
+            if CONFIG.ENEMY_MISSILES.START_POS_RANGE_CUR is not None else [(-0.5, 0.5)]
+        self.end_pos_range_cur = CONFIG.ENEMY_MISSILES.END_POS_RANGE_CUR \
+            if CONFIG.ENEMY_MISSILES.END_POS_RANGE_CUR is not None else [(-0.5, 0.5)]
+        self.start_pos_range = self.start_pos_range_cur.pop(0)
+        self.end_pos_range = self.end_pos_range_cur.pop(0)
+
+    def advance_curriculum(self):
+        if len(self.start_pos_range_cur) > 0:
+            self.start_pos_range = self.start_pos_range_cur.pop(0)
+        else:
+            self.start_pos_range = (-0.5, 0.5)
+        if len(self.end_pos_range_cur) > 0:
+            self.end_pos_range = self.end_pos_range_cur.pop(0)
+        else:
+            self.end_pos_range = (-0.5, 0.5)
+
+    def set_start_pos_range(self, left, right):
+        assert -0.5 <= left <= 0.5
+        assert -0.5 <= right <= 0.5
+        self.start_pos_range = (left, right)
+
+    def set_end_pos_range(self, left, right):
+        assert -0.5 <= left <= 0.5
+        assert -0.5 <= right <= 0.5
+        self.end_pos_range = (left, right)
 
     def _launch_missile(self):
         """Launch a new missile.
@@ -40,12 +65,12 @@ class EnemyMissiles():
 
         # Initial position
         x0 = self._rng_python.uniform(
-            -0.5 * CONFIG.EPISODE.WIDTH, 0.5 * CONFIG.EPISODE.WIDTH)
+            self.start_pos_range[0] * CONFIG.EPISODE.WIDTH, self.start_pos_range[1] * CONFIG.EPISODE.WIDTH)
         y0 = CONFIG.EPISODE.HEIGHT
 
         # Final position
         x1 = self._rng_python.uniform(
-            -0.5 * CONFIG.EPISODE.WIDTH, 0.5 * CONFIG.EPISODE.WIDTH)
+            self.end_pos_range[0] * CONFIG.EPISODE.WIDTH, self.end_pos_range[1] * CONFIG.EPISODE.WIDTH)
         y1 = 0.0
 
         # Compute speed vectors
