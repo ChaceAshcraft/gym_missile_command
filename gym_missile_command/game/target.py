@@ -1,6 +1,7 @@
 """Target."""
 
 import cv2
+import numpy as np
 
 from gym_missile_command.configuration import CONFIG
 from gym_missile_command.utils import get_cv2_xy
@@ -58,6 +59,10 @@ class Target():
 
         elif action == 4:
             self.x = min(CONFIG.EPISODE.WIDTH / 2, self.x + CONFIG.TARGET.VX)
+
+        if action in [0, 1, 2, 3, 4]:
+            self.x =+ np.random.randint(-2, 2)
+            self.y =+ np.random.randint(-2, 2)
 
         return None, None, None, None
 
