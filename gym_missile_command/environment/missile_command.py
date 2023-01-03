@@ -259,6 +259,9 @@ class MissileCommandEnv(gym.Env):
         # Check if episode is finished
         done = done_cities or done_enemy_missiles
 
+        if done:
+            self.reward += self.cities.get_remaining_cities() / CONFIG.CITIES.NUMBER
+
         # Compute observation
         self._compute_observation()
 
