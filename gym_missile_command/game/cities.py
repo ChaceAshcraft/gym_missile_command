@@ -39,9 +39,9 @@ class Cities():
         # ------------------------------------------
 
         # Even number of cities for symmetry, bigger or equal to 2
-        if CONFIG.CITIES.NUMBER % 2 != 0 or CONFIG.CITIES.NUMBER < 2:
-            sys.exit("Please choose an even number of cities, bigger or equal "
-                     "to 2.")
+        # if CONFIG.CITIES.NUMBER % 2 != 0 or CONFIG.CITIES.NUMBER < 2:
+        #     sys.exit("Please choose an even number of cities, bigger or equal "
+        #              "to 2.")
 
         # Enough space is needed for objects not to not overlap
         if free_space < CONFIG.CITIES.NUMBER * CONFIG.CITIES.RADIUS:
@@ -53,26 +53,29 @@ class Cities():
         # ------------------------------------------
 
         # Gap between cities
-        gap = (free_space - CONFIG.CITIES.NUMBER * CONFIG.CITIES.RADIUS) \
-            / (0.5 * CONFIG.CITIES.NUMBER + 1)
+        if CONFIG.CITIES.NUMBER > 1:
+            gap = (free_space - CONFIG.CITIES.NUMBER * CONFIG.CITIES.RADIUS) \
+                / (0.5 * CONFIG.CITIES.NUMBER + 1)
 
-        # First position, last position and step between cities centers
-        start = CONFIG.BATTERY.RADIUS + gap + CONFIG.CITIES.RADIUS
-        step = gap + 2 * CONFIG.CITIES.RADIUS
-        stop = 0.5 * CONFIG.EPISODE.WIDTH - gap
-        half_cities_nb = int(CONFIG.CITIES.NUMBER / 2)
+            # First position, last position and step between cities centers
+            start = CONFIG.BATTERY.RADIUS + gap + CONFIG.CITIES.RADIUS
+            step = gap + 2 * CONFIG.CITIES.RADIUS
+            stop = 0.5 * CONFIG.EPISODE.WIDTH - gap
+            half_cities_nb = int(CONFIG.CITIES.NUMBER / 2)
 
-        # Cities on the left side
-        self.cities[:half_cities_nb, 0] = -np.arange(start=start,
-                                                     stop=stop,
-                                                     step=step,
-                                                     dtype=np.float32)
+            # Cities on the left side
+            self.cities[:half_cities_nb, 0] = -np.arange(start=start,
+                                                         stop=stop,
+                                                         step=step,
+                                                         dtype=np.float32)
 
-        # Cities on the right side
-        self.cities[half_cities_nb:, 0] = np.arange(start=start,
-                                                    stop=stop,
-                                                    step=step,
-                                                    dtype=np.float32)
+            # Cities on the right side
+            self.cities[half_cities_nb:, 0] = np.arange(start=start,
+                                                        stop=stop,
+                                                        step=step,
+                                                        dtype=np.float32)
+        else:
+            self.cities = np.array([[180, 0.0, 1]])
 
     def get_remaining_cities(self):
         """Compute healthy cities number.
